@@ -1,0 +1,57 @@
+name: Build iOS
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install tools
+        run: brew install ldid make 2>&1 | tail -n 5
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: "8"
+
+      - name: Build
+        run: |
+          set -o pipefail
+          export PATH="$(brew --prefix make)/libexec/gnubin:$PATH"
+          make -j"$(sysctl -n hw.ncpu)" package PLATFORM=2 RELEASE=1 BOOTJDK="$JAVA_HOME/bin" > build.log 2>&1 || { tail -n 60 build.log; exit 1; }
+
+      - name: Package IPA
+        run: |
+          ipa=$(ls artifacts/org.angelauramc.amethyst-*-ios.ipa | head -n 1)
+          mv "$ipa" PyEdition-unsigned.ipa
+          ls -lh PyEdition-unsigned.ipa
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PyEdition-unsigned-ipa
+          path: PyEdition-unsigned.ipa
+
+      - name: Write error report
+        if: failure()
+        run: |
+          {
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            grep -nE "error:|Error |\*\*\* |fatal" build.log | head -n 80 || true
+            echo
+            echo "--- last 200 lines ---"
+            tail -n 200 build.log 2>/dev/null || true
+          } > error.txt
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: error
+          path: error.txt
