@@ -165,6 +165,7 @@ add_executable(AngelAuraAmethyst
   PLPrefTableViewController.m
   PLProfiles.m
   SceneDelegate.m
+  ServerStatusViewController.m
   SceneExternalDelegate.m
   SurfaceViewController.m
   SurfaceViewController+ExternalDisplay.m

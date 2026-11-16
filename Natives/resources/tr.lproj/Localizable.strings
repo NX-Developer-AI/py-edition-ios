@@ -192,3 +192,17 @@ Bu seçenek varsayılan JitStreamer sunucusunu kullanıyorsanız olduğu gibi b�
 "preference.title.debug_show_layout_overlap" = "Düzenin üst üste geçmesini göster";
 "preference.detail.debug_show_layout_overlap" = "Üst üste kalan her yeri görebilmek için her düzeni saydam renkle donat.";
 "controller_configurator.playstation.title.named_back" = "Seç";
+
+"pyedition.server.title" = "Sunucu durumu";
+"pyedition.server.check" = "Sunucuyu kontrol et";
+"pyedition.server.address" = "Adres";
+"pyedition.server.version" = "Sürüm";
+"pyedition.server.protocol" = "Protokol";
+"pyedition.server.players" = "Oyuncular";
+"pyedition.server.latency" = "Gecikme";
+"pyedition.server.online" = "Çevrimiçi";
+"pyedition.server.motd" = "MOTD";
+"pyedition.server.history" = "Son kullanılanlar";
+"pyedition.server.error.resolve" = "Sunucu adresi bulunamadı.";
+"pyedition.server.error.connect" = "Sunucuya bağlanılamadı.";
+"pyedition.server.error.response" = "Sunucu geçerli bir durum göndermedi.";
